@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Informações do Servidor Minecraft</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #0275d8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+        label {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: block;
+        }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 80%;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .banner-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            color: #d9534f;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+        .documentation {
+            margin-top: 40px;
+            font-size: 1em;
+            text-align: center;
+            max-width: 600px;
+            color: #555;
+        }
+        .documentation a {
+            color: #0275d8;
+            text-decoration: none;
+        }
+        .documentation a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>API de Banner do Servidor Minecraft</h1>
+<p>Use a API para gerar um banner com as informações do servidor Minecraft. Insira o IP e a porta abaixo para visualizar o banner.</p>
+
+<div class="form-container">
+    <label for="server-ip">IP do Servidor:</label>
+    <input type="text" id="server-ip" placeholder="Exemplo: 192.168.1.100" required><br>
+
+    <label for="server-port">Porta:</label>
+    <input type="number" id="server-port" placeholder="Exemplo: 25565" required><br>
+
+    <button onclick="generateBanner()">Gerar Banner</button>
+</div>
+
+<div class="banner-container" id="banner-container">
+    <!-- A imagem será gerada aqui -->
+</div>
+
+<div class="error" id="error-message"></div>
+
+<div class="documentation">
+    <h3>Como usar diretamente pelo link</h3>
+    <p>Se você preferir não usar o formulário, você pode acessar a API diretamente com os parâmetros IP e porta da seguinte maneira:</p>
+    <p><code>api/serverbanner.png?ip=192.168.1.100&port=25565</code></p>
+    <p>Substitua <strong>192.168.1.100</strong> pelo IP do servidor e <strong>25565</strong> pela porta do servidor.</p>
+</div>
+
+<script>
+    function generateBanner() {
+        const ip = document.getElementById('server-ip').value;
+        const port = document.getElementById('server-port').value;
+        const errorMessage = document.getElementById('error-message');
+        const bannerContainer = document.getElementById('banner-container');
+
+        // Limpar qualquer mensagem de erro ou banner anterior
+        errorMessage.innerHTML = '';
+        bannerContainer.innerHTML = '';
+
+        if (!ip || !port) {
+            errorMessage.innerHTML = 'Por favor, preencha tanto o IP quanto a porta do servidor.';
+            return;
+        }
+
+        const url = `api/serverbanner.png?ip=${encodeURIComponent(ip)}&port=${encodeURIComponent(port)}`;
+
+        // Criar um elemento de imagem para exibir o banner
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = `Banner do servidor ${ip}:${port}`;
+        img.onload = () => {
+            bannerContainer.appendChild(img);
+        };
+        img.onerror = () => {
+            errorMessage.innerHTML = 'Não foi possível gerar o banner. Verifique o IP e a porta do servidor.';
+        };
+    }
+</script>
+</body>
+</html>
