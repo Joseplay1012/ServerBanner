@@ -128,33 +128,38 @@
 
 <script>
     function generateBanner() {
-        const ip = document.getElementById('server-ip').value;
-        const port = document.getElementById('server-port').value;
-        const errorMessage = document.getElementById('error-message');
-        const bannerContainer = document.getElementById('banner-container');
+    const ip = document.getElementById('server-ip').value;
+    const port = document.getElementById('server-port').value;
+    const errorMessage = document.getElementById('error-message');
+    const bannerContainer = document.getElementById('banner-container');
 
-        // Limpar qualquer mensagem de erro ou banner anterior
-        errorMessage.innerHTML = '';
-        bannerContainer.innerHTML = '';
+    // Limpar qualquer mensagem de erro ou banner anterior
+    errorMessage.innerHTML = '';
+    bannerContainer.innerHTML = '';
 
-        if (!ip || !port) {
-            errorMessage.innerHTML = 'Por favor, preencha tanto o IP quanto a porta do servidor.';
-            return;
-        }
+    // Declarar 'url' com let para permitir alterações
+    let url = `api/serverbanner.png?ip=${encodeURIComponent(ip)}`;
 
-        const url = `api/serverbanner.png?ip=${encodeURIComponent(ip)}&port=${encodeURIComponent(port)}`;
-
-        // Criar um elemento de imagem para exibir o banner
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = `Banner do servidor ${ip}:${port}`;
-        img.onload = () => {
-            bannerContainer.appendChild(img);
-        };
-        img.onerror = () => {
-            errorMessage.innerHTML = 'Não foi possível gerar o banner. Verifique o IP e a porta do servidor.';
-        };
+    if (!ip) {
+        errorMessage.innerHTML = 'Por favor, preencha o IP do servidor.';
+        return;
     }
+
+    if (port) {
+        url = `api/serverbanner.png?ip=${encodeURIComponent(ip)}&port=${encodeURIComponent(port)}`;
+    }
+
+    // Criar um elemento de imagem para exibir o banner
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = `Banner do servidor ${ip}`;
+    img.onload = () => {
+        bannerContainer.appendChild(img);
+    };
+    img.onerror = () => {
+        errorMessage.innerHTML = 'Não foi possível gerar o banner. Verifique o IP e a porta do servidor.';
+    };
+}
 </script>
 </body>
 </html>

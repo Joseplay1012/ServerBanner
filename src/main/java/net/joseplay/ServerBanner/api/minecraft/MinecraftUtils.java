@@ -215,26 +215,26 @@ public class MinecraftUtils {
             }
 
             //Desenha o ping
-            if (pingFile.exists()) {
+            /**if (pingFile.exists()) {
                 BufferedImage pingImage = ImageIO.read(pingFile);
                 g.drawImage(pingImage, 1780, 5, 50, 50, null);
 
-            }
+            }*/
 
             // Adicionar texto com informações do servidor
             g.setFont(customFont);
             g.setColor(Color.WHITE);
-            drawColoredText(g, "§f" + serverInfo.getIp(), 300, 50);
+            drawColoredText(g, "§f" + serverInfo.getIp(), 300, 100);
             //drawColoredText(g, serverInfo.getLatency() + "§ams", 600, 80);
-            drawColoredText(g, "§8" + serverInfo.getOnlinePlayers() + " §7/ §8" + serverInfo.getMaxPlayers(), 1400, 50);
+            drawColoredText(g, "§8" + serverInfo.getOnlinePlayers() + "§7/§8" + serverInfo.getMaxPlayers(), 1450, 100);
 
 
-            int offSet = 150;
-            int height = 300;
+            int offSet = 180;
+            int height = 350;
             for (JsonElement s : serverInfo.getMotd()) {
                 drawColoredText(g, allianceFontUnReplace(s.getAsString().replace("§r", "")), height, offSet);
                 System.out.println(s.getAsString());
-                offSet = offSet + 60;
+                offSet = offSet + 90;
             }
 
             // Finalizar a renderização
@@ -327,7 +327,7 @@ public class MinecraftUtils {
                 // Aplicar sublinhado ou tachado manualmente
                 if (underlined || strikethrough) {
                     int textWidth = g2d.getFontMetrics().stringWidth(segmentText);
-                    int lineY = y + 1; // Ajuste fino para a linha
+                    int lineY = y - 02; // Ajuste fino para a linha
                     if (underlined) g2d.drawLine(currentX, lineY, currentX + textWidth, lineY);
                     if (strikethrough) g2d.drawLine(currentX, y - g2d.getFontMetrics().getHeight() / 3, currentX + textWidth, y - g2d.getFontMetrics().getHeight() / 3);
                 }
